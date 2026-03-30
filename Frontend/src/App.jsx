@@ -1,121 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import { CartProvider } from "./context/CartContext";
+
+// Public pages
+import Home from "./pages/Home";
+import TableQRScanner from "./pages/TableQRScanner";
+import Menu from "./pages/Menu";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import TableOrder from "./pages/TableOrder";
+import Reservation from "./pages/Reservation";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Login from "./pages/LoginPhone"; 
+import Profile from "./pages/Profile";   // ✅ Added
+// import GoogleTest from "./pages/GoogleTest";
+
+// Admin pages
+import AdminLayout from "./admin/components/AdminLayout";
+import Dashboard from "./admin/pages/Dashboard";
+import ManageMenu from "./admin/pages/Menu";
+import ManageOrders from "./admin/pages/Orders";
+import ManageReservations from "./admin/pages/ManageReservations";
+import ManageFacts from "./admin/pages/ManageFacts";
+import ManageUsers from "./admin/pages/ManageUsers";
+
+export default function App() {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  // ✅ Theme handler
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "data-theme",
+      theme === "dark" ? "dark" : ""
+    );
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <CartProvider>
+      <div className="min-h-screen flex flex-col">
+        <Navbar theme={theme} setTheme={setTheme} />
 
-      <div className="ticks"></div>
+        <main className="flex-1">
+          <Routes>
+            {/* ✅ Default public routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/scan-table" element={<TableQRScanner />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/table/:id" element={<TableOrder />} />
+            <Route path="/reservation" element={<Reservation />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} /> 
+            <Route path="/profile" element={<Profile />} /> {/* ✅ Added */}
+            {/* <Route path="/googletest" element={<GoogleTest />} /> */}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+            {/* ✅ Admin routes */}
+            <Route path="/admin/*" element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="menu" element={<ManageMenu />} />
+              <Route path="orders" element={<ManageOrders />} />
+              <Route path="reservations" element={<ManageReservations />} />
+              <Route path="facts" element={<ManageFacts />} />
+              <Route path="users" element={<ManageUsers />} />
+            </Route>
+          </Routes>
+        </main>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <Footer />
+      </div>
+    </CartProvider>
+  );
 }
-
-export default App
