@@ -5,9 +5,9 @@ import User from "../models/User.js";
 const router = express.Router();
 
 // Get cart
-router.get("/:phone", async (req, res) => {
+router.get("/:email", async (req, res) => {
   try {
-    const user = await User.findOne({ phone: req.params.phone });
+    const user = await User.findOne({ email: req.params.email });
     if (!user) return res.json({ cart: [] });
     res.json({ cart: user.cart || [] });
   } catch (err) {
@@ -16,11 +16,11 @@ router.get("/:phone", async (req, res) => {
 });
 
 // Save/replace cart
-router.post("/:phone", async (req, res) => {
+router.post("/:email", async (req, res) => {
   try {
     const { cart } = req.body;
     const user = await User.findOneAndUpdate(
-      { phone: req.params.phone },
+      { email: req.params.email },
       { cart },
       { new: true }
     );

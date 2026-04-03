@@ -19,7 +19,7 @@ export default function Navbar({ theme, setTheme }) {
   const count =
     state?.items?.reduce((s, i) => s + (i.qty ?? i.quantity ?? 1), 0) || 0;
 
-  // ✅ Listen to Firebase Auth state (no Firestore)
+  // Listen to Firebase Auth state (no Firestore)
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       setUser(u || null);

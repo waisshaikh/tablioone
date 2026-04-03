@@ -16,7 +16,7 @@ import Reservation from "./pages/Reservation";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/LoginPhone"; 
-import Profile from "./pages/Profile";   // ✅ Added
+import Profile from "./pages/Profile"; 
 // import GoogleTest from "./pages/GoogleTest";
 
 // Admin pages
@@ -31,7 +31,7 @@ import ManageUsers from "./admin/pages/ManageUsers";
 export default function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
-  // ✅ Theme handler
+  //  Theme handler
   useEffect(() => {
     document.documentElement.setAttribute(
       "data-theme",
@@ -47,7 +47,7 @@ export default function App() {
 
         <main className="flex-1">
           <Routes>
-            {/* ✅ Default public routes */}
+            {/* Default public routes */}
             <Route path="/" element={<Home />} />
             <Route path="/scan-table" element={<TableQRScanner />} />
             <Route path="/menu" element={<Menu />} />
@@ -58,10 +58,10 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} /> 
-            <Route path="/profile" element={<Profile />} /> {/* ✅ Added */}
+            <Route path="/profile" element={<Profile />} /> {/*  */}
             {/* <Route path="/googletest" element={<GoogleTest />} /> */}
 
-            {/* ✅ Admin routes */}
+            {/* Admin routes */}
             <Route path="/admin/*" element={<AdminLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="menu" element={<ManageMenu />} />

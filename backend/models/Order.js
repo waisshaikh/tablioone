@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    userPhone: { type: String, required: true },
+    useremail: { type: String, required: true },
     items: [
       {
         id: String,
@@ -17,12 +17,12 @@ const orderSchema = new mongoose.Schema(
     customer: {
       name: String,
       email: String,
-      phone: String,
+      email: String,
       address: String,
       orderType: { type: String, default: "delivery" },
     },
-    table: { type: String, default: null },   // ✅ Dine-in table number
-    channel: {                                // ✅ Online or Table QR
+    table: { type: String, default: null },   //  Dine-in table number
+    channel: {                                //  Online or Table QR
       type: String,
       enum: ["online", "table"],
       default: "online",

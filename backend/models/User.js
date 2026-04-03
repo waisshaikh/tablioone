@@ -1,15 +1,22 @@
-// models/User.js
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    phone: { type: String, unique: true, required: true },
+    //  PRIMARY IDENTIFIER
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
     name: String,
-    email: String,
     address: String,
     profileImage: String,
 
-    // 👇 new field for cart
+    //  optional
+    firebaseUid: String,
+
+    //  cart
     cart: [
       {
         id: String,

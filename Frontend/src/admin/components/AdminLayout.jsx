@@ -20,7 +20,7 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className={`bg-white border-r w-72 shrink-0 transition-all ${open ? "translate-x-0" : "-translate-x-72"} md:translate-x-0`}>
         <div className="h-16 flex items-center px-6 border-b">
-          <span className="font-extrabold text-xl tracking-tight">🍤 Maaslli Admin</span>
+          <span className="font-extrabold text-xl tracking-tight">TablioOne ADMIN</span>
         </div>
         <nav className="p-3 space-y-1">
           {navItems.map((item) => (

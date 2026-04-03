@@ -5,7 +5,7 @@ const APP_JWT_SECRET = process.env.JWT_SECRET || "super-secret-key";
 // generate a signed token for the app
 export function signAppToken(user) {
   return jwt.sign(
-    { id: user._id, phone: user.phone, role: user.role },
+    { id: user._id, email: user.email, role: user.role },
     APP_JWT_SECRET,
     { expiresIn: "7d" }
   );

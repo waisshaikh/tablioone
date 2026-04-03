@@ -20,7 +20,7 @@ cloudinary.v2.config({
 function uploadBufferToCloudinary(buffer, folder = "profiles") {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.v2.uploader.upload_stream(
-      { folder, resource_type: "image" }, // 👈 safer
+      { folder, resource_type: "image" }, // 
       (err, result) => {
         if (err) return reject(err);
         resolve(result.secure_url);
@@ -33,11 +33,11 @@ function uploadBufferToCloudinary(buffer, folder = "profiles") {
 // ===== POST /api/users  (create/update user profile) =====
 router.post("/", upload.single("avatar"), async (req, res) => {
   try {
-    const { phone, name, email, address } = req.body;
-    if (!phone) {
+    const { email, name,  address } = req.body;
+    if (!email) {
       return res
         .status(400)
-        .json({ success: false, message: "Phone is required" });
+        .json({ success: false, message: "email is required" });
     }
 
     // Upload to Cloudinary if avatar present
@@ -54,8 +54,8 @@ router.post("/", upload.single("avatar"), async (req, res) => {
       ...(profileImage && { profileImage }),
     };
 
-    // Find by phone and update (or insert new)
-    const user = await User.findOneAndUpdate({ phone }, update, {
+    // Find by email and update (or insert new)
+    const user = await User.findOneAndUpdate({ email }, update, {
       new: true,
       upsert: true,
       setDefaultsOnInsert: true,
@@ -70,10 +70,10 @@ router.post("/", upload.single("avatar"), async (req, res) => {
   }
 });
 
-// ===== GET /api/users/:phone  (fetch user by phone) =====
-router.get("/:phone", async (req, res) => {
+// ===== GET /api/users/:email  (fetch user by email) =====
+router.get("/:email", async (req, res) => {
   try {
-    const user = await User.findOne({ phone: req.params.phone });
+    const user = await User.findOne({ email: req.params.email });
     if (!user) {
       return res
         .status(404)

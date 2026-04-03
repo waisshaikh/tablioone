@@ -45,7 +45,7 @@ router.post("/verify", async (req, res) => {
       cartItems,
       totalPrice,
       customer,
-      phone,
+      email,
       table,       // ✅ NEW: dine-in table number (or null)
       channel,     // ✅ NEW: "table" or "online"
     } = req.body;
@@ -64,7 +64,7 @@ router.post("/verify", async (req, res) => {
 
     // Save order
     const order = new Order({
-      userPhone: phone,
+      useremail: email,
       items: cartItems,
       totalPrice,
       customer,
@@ -77,7 +77,7 @@ router.post("/verify", async (req, res) => {
     await order.save();
 
     // Clear cart for this user
-    await User.findOneAndUpdate({ phone }, { cart: [] });
+    await User.findOneAndUpdate({ email }, { cart: [] });
 
     // ✅ Emit new order event (real-time)
     req.io.emit("orderUpdated", order);
@@ -104,9 +104,9 @@ router.get("/", async (_req, res) => {
 // =============================
 // Get orders for a user
 // =============================
-router.get("/user/:phone", async (req, res) => {
+router.get("/user/:email", async (req, res) => {
   try {
-    const orders = await Order.find({ userPhone: req.params.phone }).sort({
+    const orders = await Order.find({ useremail: req.params.email }).sort({
       createdAt: -1,
     });
     res.json({ success: true, orders });

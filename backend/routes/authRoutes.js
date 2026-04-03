@@ -10,17 +10,17 @@ let otpStore = {}; // temporary storage (production me DB use karna better hai)
 // ✅ Send OTP
 router.post("/send-otp", async (req, res) => {
   try {
-    const { phone } = req.body;
+    const { email } = req.body;
 
-    if (!phone) {
-      return res.status(400).json({ message: "Phone number required" });
+    if (!email) {
+      return res.status(400).json({ message: "email number required" });
     }
 
     // Generate random 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000);
 
     // Save OTP in memory with expiry (5 min)
-    otpStore[phone] = {
+    otpStore[email] = {
       otp: otp.toString(),
       expiresAt: Date.now() + 5 * 60 * 1000,
     };
@@ -33,7 +33,7 @@ router.post("/send-otp", async (req, res) => {
         message: `Your OTP for verification is ${otp}`,
         language: "english",
         flash: 0,
-        numbers: phone,
+        numbers: email,
       },
       {
         headers: {
@@ -53,19 +53,19 @@ router.post("/send-otp", async (req, res) => {
 // ✅ Verify OTP
 router.post("/verify-otp", (req, res) => {
   try {
-    const { phone, otp } = req.body;
+    const { email, otp } = req.body;
 
-    if (!phone || !otp) {
-      return res.status(400).json({ message: "Phone and OTP required" });
+    if (!email || !otp) {
+      return res.status(400).json({ message: "email and OTP required" });
     }
 
-    const record = otpStore[phone];
+    const record = otpStore[email];
     if (!record) {
       return res.status(400).json({ message: "OTP not found or expired" });
     }
 
     if (Date.now() > record.expiresAt) {
-      delete otpStore[phone];
+      delete otpStore[email];
       return res.status(400).json({ message: "OTP expired" });
     }
 
@@ -74,7 +74,7 @@ router.post("/verify-otp", (req, res) => {
     }
 
     // OTP valid -> delete record
-    delete otpStore[phone];
+    delete otpStore[email];
 
     return res.json({ success: true, message: "OTP verified successfully" });
   } catch (err) {
