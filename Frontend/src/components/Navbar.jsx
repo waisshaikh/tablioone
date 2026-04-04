@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
-import { auth } from "../firebase"; // ✅ Auth only
+import { auth } from "../firebase"; 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import axios from "axios";
+
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
 
 const API_BASE = "http://localhost:5000"; // change if different
 
@@ -19,25 +21,27 @@ export default function Navbar({ theme, setTheme }) {
   const count =
     state?.items?.reduce((s, i) => s + (i.qty ?? i.quantity ?? 1), 0) || 0;
 
+  const isAdmin = user?.email === ADMIN_EMAIL;
+
   // Listen to Firebase Auth state (no Firestore)
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       setUser(u || null);
       setProfile(null);
 
-      // If logged in, fetch profile from your MongoDB API using phone number
-      const phone = u?.phoneNumber || localStorage.getItem("userPhone");
-      if (phone) {
+      // If logged in, fetch profile from your MongoDB API using email number
+      const email = u?.email || localStorage.getItem("useremail");
+      if (email) {
         try {
           const res = await axios.get(
-            `${API_BASE}/api/users/${encodeURIComponent(phone)}`,
+            `${API_BASE}/api/users/${encodeURIComponent(email)}`,
             { withCredentials: true }
           );
           const doc = res.data?.user;
           if (doc) {
             setProfile({
-              name: doc.name || "",
-              dp: doc.profileImage || "", // Cloudinary URL if present
+              name: doc.name || u.displayName || "User",
+              dp: doc.profileImage || u.photoURL || "",
             });
           }
         } catch {
@@ -50,7 +54,7 @@ export default function Navbar({ theme, setTheme }) {
 
   const handleLogout = async () => {
     await signOut(auth);
-    localStorage.removeItem("userPhone");
+    localStorage.removeItem("useremail");
     setUser(null);
     setProfile(null);
     navigate("/login");
@@ -138,7 +142,7 @@ export default function Navbar({ theme, setTheme }) {
                 )}
               </Link>
 
-              {/* ✅ Auth Buttons (no Firestore) */}
+              {/*  Auth Buttons (no Firestore) */}
               {!user ? (
                 <Link
                   to="/login"
@@ -149,6 +153,17 @@ export default function Navbar({ theme, setTheme }) {
               ) : (
                 <>
                   <ProfileButton />
+
+                  {/* 🔥 ADMIN BUTTON ADD YAHI */}
+                  {isAdmin && (
+                    <button
+                      onClick={() => navigate("/admin")}
+                      className="px-3 py-2 rounded bg-purple-600 text-white hover:bg-purple-700"
+                    >
+                      Admin
+                    </button>
+                  )}
+
                   <button
                     onClick={handleLogout}
                     className="px-3 py-2 rounded bg-red-500 text-white hover:bg-red-600"
@@ -172,9 +187,8 @@ export default function Navbar({ theme, setTheme }) {
 
         {/* Mobile dropdown */}
         <div
-          className={`${
-            open ? "max-h-screen" : "max-h-0"
-          } md:hidden overflow-hidden transition-all`}
+          className={`${open ? "max-h-screen" : "max-h-0"
+            } md:hidden overflow-hidden transition-all`}
         >
           <div className="px-4 py-3 space-y-2 border-t border-white/10 bg-white/60 dark:bg-black/60">
             <Link onClick={() => setOpen(false)} to="/menu" className="block px-3 py-2 rounded">

@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
+
 import { auth } from "../firebase";
+
+
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -35,6 +39,8 @@ export default function Profile() {
     return;
   }
 
+  
+
   let cancelled = false;
 
   (async () => {
@@ -59,7 +65,7 @@ export default function Profile() {
         if (userData.profileImage) {
           setPreview(userData.profileImage);
         } else if (user.photoURL) {
-          setPreview(user.photoURL); // 🔥 Google DP fallback
+          setPreview(user.photoURL); // Google DP fallback
         }
       }
     } catch (err) {

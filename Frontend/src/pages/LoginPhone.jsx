@@ -12,32 +12,48 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-
       const result = await signInWithPopup(auth, provider);
 
-      const user = result.user;
+      console.log(" Logged in:", result.user);
 
-      console.log("✅ Logged in user:", user);
-
-      // redirect back
       navigate(from, { replace: true });
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("Login failed");
+    } catch (err) {
+      console.error(err);
+      alert("Login failed!!");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white">
-      <div className="bg-white/10 p-8 rounded-xl text-center">
-        <h1 className="text-2xl font-bold mb-6">Login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#0A0A0A] to-[#121212] text-white">
 
+      {/* Card */}
+      <div className="w-[350px] p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl text-center">
+
+        {/* Logo / Title */}
+        <h1 className="text-3xl font-bold mb-2">Welcome 👋</h1>
+        <p className="text-gray-400 mb-6">
+          Continue with Google to proceed
+        </p>
+
+        {/* Google Button */}
         <button
           onClick={handleGoogleLogin}
-          className="px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200"
+          className="w-full flex items-center justify-center gap-3 bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition"
         >
-          Continue with Google!
+          {/* Google Icon */}
+          <img
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+            alt="google"
+            className="w-5 h-5"
+          />
+
+          Continue with Google
         </button>
+
+        {/* Small note */}
+        <p className="text-xs text-gray-500 mt-6">
+          Secure login powered by Google
+        </p>
       </div>
     </div>
   );
