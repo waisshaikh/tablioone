@@ -15,8 +15,8 @@ import TableOrder from "./pages/TableOrder";
 import Reservation from "./pages/Reservation";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Login from "./pages/LoginPhone"; 
-import Profile from "./pages/Profile"; 
+import Login from "./pages/LoginPhone";
+import Profile from "./pages/Profile";
 // import GoogleTest from "./pages/GoogleTest";
 
 // Admin pages
@@ -27,6 +27,39 @@ import ManageOrders from "./admin/pages/Orders";
 import ManageReservations from "./admin/pages/ManageReservations";
 import ManageFacts from "./admin/pages/ManageFacts";
 import ManageUsers from "./admin/pages/ManageUsers";
+
+
+import { Navigate } from "react-router-dom";
+import { auth } from "./firebase";
+
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
+
+import { onAuthStateChanged } from "firebase/auth";
+
+const AdminRoute = ({ children }) => {
+  const [user, setUser] = useState(undefined); 
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+    });
+
+    return () => unsub();
+  }, []);
+
+  // wait until firebase loads
+  if (user === undefined) {
+    return <div className="text-center mt-20">Checking access...</div>;
+  }
+
+  // not admin
+  if (!user || user.email !== ADMIN_EMAIL) {
+    return <Navigate to="/" />;
+  }
+
+  //  admin allowed
+  return children;
+};
 
 export default function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -57,12 +90,19 @@ export default function App() {
             <Route path="/reservation" element={<Reservation />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} /> 
+            <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} /> {/*  */}
             {/* <Route path="/googletest" element={<GoogleTest />} /> */}
 
             {/* Admin routes */}
-            <Route path="/admin/*" element={<AdminLayout />}>
+            <Route
+              path="/admin/*"
+              element={
+                <AdminRoute>
+                  <AdminLayout />
+                </AdminRoute>
+              }
+            >
               <Route index element={<Dashboard />} />
               <Route path="menu" element={<ManageMenu />} />
               <Route path="orders" element={<ManageOrders />} />

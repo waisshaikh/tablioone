@@ -1,5 +1,5 @@
-// server.js
-import 'dotenv/config';  // 👈 
+
+import 'dotenv/config';  
 
 import express from "express";
 import mongoose from "mongoose";
@@ -54,7 +54,7 @@ app.use("/api/payments", paymentRoutes);
 
 // ====== Health Check ======
 app.get("/", (_req, res) => {
-  res.send("✅ Backend API is running...");
+  res.send(" Backend API is running...");
 });
 
 // ====== Socket Events ======
@@ -80,9 +80,9 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("✅ MongoDB Connected");
+    console.log(" MongoDB Connected");
     server.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(` Server running on port ${PORT}`);
     });
   })
-  .catch((err) => console.error("❌ DB Connection Failed:", err));
+  .catch((err) => console.error("DB Connection Failed:", err));

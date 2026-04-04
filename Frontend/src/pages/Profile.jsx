@@ -186,26 +186,29 @@ if (!user) {
     <div className="min-h-screen bg-black text-white p-6 mt-15">
       <div className="max-w-4xl mx-auto bg-gray-900 rounded-lg shadow-lg p-6">
         {/* Tabs */}
-        <div className="flex gap-6 mb-6 border-b border-gray-700">
-          <button
-            onClick={() => setActiveTab("profile")}
-            className={`pb-2 px-4 font-semibold ${activeTab === "profile"
-                ? "border-b-2 border-blue-500 text-blue-400"
-                : "text-gray-400"
-              }`}
-          >
-            Profile
-          </button>
-          <button
-            onClick={() => setActiveTab("orders")}
-            className={`pb-2 px-4 font-semibold ${activeTab === "orders"
-                ? "border-b-2 border-green-500 text-green-400"
-                : "text-gray-400"
-              }`}
-          >
-            📦 My Orders
-          </button>
-        </div>
+        <div className="flex gap-3 mb-6 bg-gray-800 p-2 rounded-lg w-fit mx-auto">
+  <button
+    onClick={() => setActiveTab("profile")}
+    className={`px-5 py-2 rounded-md font-semibold transition-all duration-200 ${
+      activeTab === "profile"
+        ? "bg-blue-600 text-white shadow-md"
+        : "text-gray-400 hover:bg-gray-700"
+    }`}
+  >
+    👤 Profile
+  </button>
+
+  <button
+    onClick={() => setActiveTab("orders")}
+    className={`px-5 py-2 rounded-md font-semibold transition-all duration-200 ${
+      activeTab === "orders"
+        ? "bg-green-600 text-white shadow-md"
+        : "text-gray-400 hover:bg-gray-700"
+    }`}
+  >
+    📦 My Orders
+  </button>
+</div>
 
         {/* Profile Form */}
         {activeTab === "profile" && (

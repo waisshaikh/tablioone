@@ -15,9 +15,9 @@ export default function Menu() {
   const [cartDraft, setCartDraft] = useState({}); // dishId -> qty
   const [_, dispatch] = useCart();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams(); // 👈
+  const [searchParams] = useSearchParams(); 
 
-  // ✅ Check if ?table= exists → store in sessionStorage
+  //  Check if ?table= exists → store in sessionStorage
   useEffect(() => {
     const tableId = searchParams.get("table");
     if (tableId) {

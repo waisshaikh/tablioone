@@ -1,4 +1,4 @@
-// src/components/DishCard.jsx
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -7,7 +7,7 @@ export default function DishCard({
   quantity = 0,
   onIncrease,
   onDecrease,
-  onAddToCart, // ✅ new prop
+  onAddToCart, 
 }) {
   const [expanded, setExpanded] = useState(false);
   const inStock = dish?.inStock !== false;
@@ -97,7 +97,7 @@ export default function DishCard({
               </button>
             </div>
 
-            {/* ✅ Separate Add to Cart */}
+            {/* Separate Add to Cart */}
             <button
               onClick={() => onAddToCart?.(dish, quantity)}
               className="w-full px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-[#00E19E] to-[#00C6FF] text-black hover:opacity-95 transition"

@@ -85,7 +85,7 @@ export default function Navbar({ theme, setTheme }) {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
               <Link to="/" className="text-xl font-extrabold tracking-tight">
-                Maaslli
+                TabliOne
               </Link>
 
               {/* Desktop links */}
@@ -154,7 +154,7 @@ export default function Navbar({ theme, setTheme }) {
                 <>
                   <ProfileButton />
 
-                  {/* 🔥 ADMIN BUTTON ADD YAHI */}
+                  {/* ADMIN BUTTON*/}
                   {isAdmin && (
                     <button
                       onClick={() => navigate("/admin")}

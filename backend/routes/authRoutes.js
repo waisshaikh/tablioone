@@ -7,7 +7,7 @@ const router = express.Router();
 
 let otpStore = {}; // temporary storage (production me DB use karna better hai)
 
-// ✅ Send OTP
+//  Send OTP
 router.post("/send-otp", async (req, res) => {
   try {
     const { email } = req.body;
@@ -50,7 +50,7 @@ router.post("/send-otp", async (req, res) => {
   }
 });
 
-// ✅ Verify OTP
+//  Verify OTP
 router.post("/verify-otp", (req, res) => {
   try {
     const { email, otp } = req.body;

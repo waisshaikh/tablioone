@@ -1,4 +1,4 @@
-// src/admin/pages/ManageFacts.jsx
+
 import React from "react";
 
 export default function ManageFacts() {

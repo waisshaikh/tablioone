@@ -12,9 +12,8 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// =============================
 // Create Razorpay order
-// =============================
+
 router.post("/create", async (req, res) => {
   try {
     const { totalPrice } = req.body;
@@ -33,9 +32,9 @@ router.post("/create", async (req, res) => {
   }
 });
 
-// =============================
+
 // Verify payment & Save order
-// =============================
+
 router.post("/verify", async (req, res) => {
   try {
     const {
@@ -46,8 +45,8 @@ router.post("/verify", async (req, res) => {
       totalPrice,
       customer,
       email,
-      table,       // ✅ NEW: dine-in table number (or null)
-      channel,     // ✅ NEW: "table" or "online"
+      table,       //  NEW: dine-in table number (or null)
+      channel,     //  NEW: "table" or "online"
     } = req.body;
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -64,22 +63,31 @@ router.post("/verify", async (req, res) => {
 
     // Save order
     const order = new Order({
-      useremail: email,
-      items: cartItems,
-      totalPrice,
-      customer,
-      table: table || null,               // ✅ will be saved if dine-in
-      channel: channel || "online",       // ✅ mark order type
-      paymentId: razorpay_payment_id,
-      razorpayOrderId: razorpay_order_id,
-      status: "pending",
-    });
+  useremail: email,
+
+  items: cartItems.map((item) => ({
+    id: item.id,
+    name: item.name,
+    price: item.price,
+    quantity: item.qty || item.quantity || 1, // 🔥 FIX HERE
+    image: item.image,
+  })),
+
+  totalPrice,
+  customer,
+  table: table || null,
+  channel: channel || "online",
+  paymentId: razorpay_payment_id,
+  razorpayOrderId: razorpay_order_id,
+  status: "pending",
+});
+    
     await order.save();
 
     // Clear cart for this user
     await User.findOneAndUpdate({ email }, { cart: [] });
 
-    // ✅ Emit new order event (real-time)
+    //  Emit new order event real-time
     req.io.emit("orderUpdated", order);
 
     res.json({ success: true, order });
@@ -89,9 +97,9 @@ router.post("/verify", async (req, res) => {
   }
 });
 
-// =============================
-// Get all orders (Admin)
-// =============================
+
+// Get all orders__Admin
+
 router.get("/", async (_req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
@@ -101,9 +109,9 @@ router.get("/", async (_req, res) => {
   }
 });
 
-// =============================
+
 // Get orders for a user
-// =============================
+
 router.get("/user/:email", async (req, res) => {
   try {
     const orders = await Order.find({ useremail: req.params.email }).sort({
@@ -115,9 +123,9 @@ router.get("/user/:email", async (req, res) => {
   }
 });
 
-// =============================
+
 // Update order status (Admin)
-// =============================
+
 router.put("/:id/status", async (req, res) => {
   try {
     const { status } = req.body;
@@ -131,7 +139,7 @@ router.put("/:id/status", async (req, res) => {
         .status(404)
         .json({ success: false, message: "Order not found" });
 
-    // ✅ Emit update to all clients
+    // Emit update to all clients
     req.io.emit("orderUpdated", order);
 
     res.json({ success: true, order });

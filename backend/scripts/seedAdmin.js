@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
-import Admin from "../models/Admin.js"; // 👈 path must exist
+import Admin from "../models/Admin.js"; 
 
 dotenv.config();
 
@@ -27,7 +27,7 @@ async function seedAdmin() {
     console.log("🎉 Admin user created successfully:", admin.email);
     process.exit();
   } catch (err) {
-    console.error("❌ Error seeding admin:", err);
+    console.error(" Error seeding admin:", err);
     process.exit(1);
   }
 }

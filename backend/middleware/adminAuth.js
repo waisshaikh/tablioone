@@ -12,7 +12,7 @@ export default function adminAuth(req, res, next) {
       return res.status(403).json({ message: "Forbidden" });
     }
 
-    req.admin = decoded; // { adminId, role, iat, exp }
+    req.admin = decoded; 
     next();
   } catch (err) {
     console.error("adminAuth middleware error:", err.message);

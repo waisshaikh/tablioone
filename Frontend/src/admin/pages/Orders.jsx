@@ -25,7 +25,7 @@ export default function Orders() {
   useEffect(() => {
     fetchOrders();
 
-    // ✅ Socket: listen for order updates
+    //  Socket: listen for order updates
     socket.on("orderUpdated", (updatedOrder) => {
       setOrders((prev) => {
         const exists = prev.find((o) => o._id === updatedOrder._id);
@@ -46,7 +46,7 @@ export default function Orders() {
   const updateStatus = async (id, newStatus) => {
     try {
       await axios.put(`${API_BASE}/api/orders/${id}/status`, { status: newStatus });
-      // ⚡ No need to refetch, socket will auto-update
+      //  No need to refetch, socket will auto-update
     } catch (err) {
       console.error("Error updating status:", err);
     }
@@ -63,9 +63,8 @@ export default function Orders() {
     };
     return (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${
-          colors[status] || "bg-gray-100 text-gray-700"
-        }`}
+        className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${colors[status] || "bg-gray-100 text-gray-700"
+          }`}
       >
         {status}
       </span>
@@ -76,7 +75,7 @@ export default function Orders() {
     <div className="grid md:grid-cols-2 gap-4 mt-4">
       {orders
         .filter((o) =>
-          type === "online" ? !o.table : !!o.table // ✅ dine-in check
+          type === "online" ? !o.table : !!o.table 
         )
         .map((order) => (
           <div
@@ -91,18 +90,32 @@ export default function Orders() {
             </div>
 
             {/* Customer or Table info */}
-            <p className="text-sm text-gray-600">
-              {order.table ? (
-                <>🍽 Table {order.table}</>
-              ) : (
-                <>👤 {order.customer?.name || order.customer?.phone}</>
+            <p className="text-sm text-gray-600 space-y-1">
+
+              {/*  NAME */}
+              <div>👤 {order.customer?.name || "Guest"}</div>
+
+              {/*  TABLE  */}
+              {order.table && <div>🍽 Table {order.table}</div>}
+
+              {/*  PHONE ) */}
+              {!order.table && order.customer?.phone && (
+                <div className="text-xs text-gray-500">
+                  📞 {order.customer.phone}
+                </div>
               )}
+
+              {/* 📍 ADDRESS (only for online) */}
+              {!order.table && order.customer?.address && (
+                <div className="text-xs text-gray-500">
+                  📍 {order.customer.address}
+                </div>
+              )}
+
             </p>
 
-            <p className="text-sm text-gray-500 mt-1">
-              📝{" "}
-              {order.items.map((i) => `${i.name} x ${i.quantity}`).join(", ")}
-            </p>
+
+
 
             <div className="flex justify-between items-center mt-3 text-sm">
               <span className="font-medium text-gray-800">
@@ -113,7 +126,7 @@ export default function Orders() {
               </span>
             </div>
 
-            {/* ✅ Status Dropdown */}
+            {/*  Status Dropdown */}
             <div className="mt-3">
               <label className="text-xs text-gray-500">Update Status:</label>
               <select
@@ -144,21 +157,19 @@ export default function Orders() {
       <div className="flex gap-4">
         <button
           onClick={() => setActiveTab("online")}
-          className={`px-4 py-2 rounded-lg font-medium ${
-            activeTab === "online"
-              ? "bg-blue-600 text-white shadow"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
+          className={`px-4 py-2 rounded-lg font-medium ${activeTab === "online"
+            ? "bg-blue-600 text-white shadow"
+            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
         >
           Online Orders
         </button>
         <button
           onClick={() => setActiveTab("dinein")}
-          className={`px-4 py-2 rounded-lg font-medium ${
-            activeTab === "dinein"
-              ? "bg-blue-600 text-white shadow"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
+          className={`px-4 py-2 rounded-lg font-medium ${activeTab === "dinein"
+            ? "bg-blue-600 text-white shadow"
+            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
         >
           Dine-in Orders
         </button>

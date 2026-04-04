@@ -30,9 +30,12 @@ export default function TableOrder() {
           setScanned(code.data);
 
           // Example QR: https://maaslli.com/menu?table=5
+          
           if (code.data.includes("table=")) {
             const tableId = code.data.split("table=")[1];
-            navigate(`/menu?table=${tableId}`);
+            navigate(`/menu?table=${tableId}`, {
+              state: { tableId },
+            });
           } else {
             alert("Invalid QR code 🚫");
           }

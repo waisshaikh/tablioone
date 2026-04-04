@@ -1,4 +1,4 @@
-// models/Order.js
+
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
@@ -27,10 +27,19 @@ const orderSchema = new mongoose.Schema(
       enum: ["online", "table"],
       default: "online",
     },
+
+    bill: {
+      gst: { type: Number, default: 0 },
+      subtotal: { type: Number, default: 0 },
+      finalTotal: { type: Number, default: 0 },
+      paymentMode: { type: String, default: "online" }, // online / cash
+    },
     paymentId: String,
     razorpayOrderId: String,
     status: { type: String, default: "pending" }, // pending | confirmed | delivered | cancelled
   },
+
+
   { timestamps: true }
 );
 
