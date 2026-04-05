@@ -27,6 +27,7 @@ import ManageOrders from "./admin/pages/Orders";
 import ManageReservations from "./admin/pages/ManageReservations";
 import ManageFacts from "./admin/pages/ManageFacts";
 import ManageUsers from "./admin/pages/ManageUsers";
+import Bill from "./admin/pages/Bill";
 
 
 import { Navigate } from "react-router-dom";
@@ -106,6 +107,7 @@ export default function App() {
               <Route index element={<Dashboard />} />
               <Route path="menu" element={<ManageMenu />} />
               <Route path="orders" element={<ManageOrders />} />
+              <Route path="bill/:id" element={<Bill />} />
               <Route path="reservations" element={<ManageReservations />} />
               <Route path="facts" element={<ManageFacts />} />
               <Route path="users" element={<ManageUsers />} />

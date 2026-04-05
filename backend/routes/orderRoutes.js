@@ -62,26 +62,34 @@ router.post("/verify", async (req, res) => {
     }
 
     // Save order
+    const subtotal = cartItems.reduce(
+      (sum, item) => sum + item.price * (item.quantity ?? 1),
+      0
+    );
+
+    const gst = Math.round(subtotal * 0.05);
+    const finalTotal = subtotal + gst;
+
     const order = new Order({
-  useremail: email,
+      useremail: email,
+      items: cartItems,
+      totalPrice,
+      customer,
+      table: table || null,
+      channel: table ? "table" : "online",
+      paymentId: razorpay_payment_id,
+      razorpayOrderId: razorpay_order_id,
+      status: "pending",
 
-  items: cartItems.map((item) => ({
-    id: item.id,
-    name: item.name,
-    price: item.price,
-    quantity: item.qty || item.quantity || 1, // 🔥 FIX HERE
-    image: item.image,
-  })),
+      // BILL DATA
+      bill: {
+        gst,
+        subtotal,
+        finalTotal,
+        paymentMode: channel === "table" ? "cash" : "online",
+      },
+    });
 
-  totalPrice,
-  customer,
-  table: table || null,
-  channel: channel || "online",
-  paymentId: razorpay_payment_id,
-  razorpayOrderId: razorpay_order_id,
-  status: "pending",
-});
-    
     await order.save();
 
     // Clear cart for this user
@@ -92,7 +100,7 @@ router.post("/verify", async (req, res) => {
 
     res.json({ success: true, order });
   } catch (err) {
-    console.error("❌ Payment verify error:", err);
+    console.error(" Payment verify error:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });

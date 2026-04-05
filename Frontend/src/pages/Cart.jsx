@@ -89,7 +89,19 @@ export default function Cart() {
           </div>
 
           <button
-            onClick={() => navigate("/checkout", { state: { cartItems, totalPrice: total } })}
+            onClick={() => {
+              const table = sessionStorage.getItem("activeTable");
+
+              if (table) {
+                navigate(`/checkout?table=${table}`, {
+                  state: { cartItems, totalPrice: total },
+                });
+              } else {
+                navigate("/checkout", {
+                  state: { cartItems, totalPrice: total },
+                });
+              }
+            }}
             className="mt-6 w-full py-3 rounded-lg bg-gradient-to-r from-[#00E19E] to-[#00C6FF] text-black font-semibold"
           >
             Proceed to Checkout

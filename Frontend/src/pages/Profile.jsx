@@ -349,7 +349,7 @@ if (!user) {
                       </div>
                       <div className="text-sm text-gray-300">
                         {o.items
-                          .map((i) => `${i.name} × ${i.quantity}`)
+                          .map((i) => `${i.name} × ${i.quantity ?? i.qty ?? 1}`)
                           .join(", ")}
                       </div>
                       <div className="mt-2">

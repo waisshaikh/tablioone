@@ -17,7 +17,6 @@ const orderSchema = new mongoose.Schema(
     customer: {
       name: String,
       email: String,
-      email: String,
       address: String,
       orderType: { type: String, default: "delivery" },
     },

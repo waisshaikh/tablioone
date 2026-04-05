@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import axios from "axios";
 import { auth } from "../firebase";
 import { useCart } from "../context/CartContext";
 
+
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 
-   //RAZORPAY LOADER
+//RAZORPAY LOADER
 
 function loadRazorpay() {
   return new Promise((resolve, reject) => {
@@ -36,34 +37,27 @@ export default function Checkout() {
     address: "",
   });
 
-  
-     // TABLE DETECTION (FINAL FIX)
-  
+
+  // TABLE DETECTION (FINAL FIX)
+
   const [tableId, setTableId] = useState(null);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const tableFromURL = params.get("table");
+useEffect(() => {
+  const table = sessionStorage.getItem("tableId");
+  if (table) {
+    setTableId(table);
+  } else {
+    setTableId(null);
+  }
+}, []);
 
-    if (tableFromURL) {
-      sessionStorage.setItem("activeTable", tableFromURL);
-      setTableId(tableFromURL);
-    } else {
-      const stored = sessionStorage.getItem("activeTable");
-      if (stored) {
-        setTableId(stored);
-      } else {
-        setTableId(null);
-      }
-    }
-  }, []);
 
   const isDineIn = !!tableId;
 
   console.log("TABLE ID:", tableId);
 
-    // TOTAL PRICE
- 
+  // TOTAL PRICE
+
   const totalPrice = useMemo(() => {
     return cartItems.reduce(
       (sum, item) => sum + item.price * (item.qty ?? item.quantity ?? 1),
@@ -71,9 +65,9 @@ export default function Checkout() {
     );
   }, [cartItems]);
 
- 
-    // AUTH + CART CHECK
-  
+
+  // AUTH + CART CHECK
+
   useEffect(() => {
     const user = auth.currentUser;
 
@@ -90,8 +84,8 @@ export default function Checkout() {
     setLoading(false);
   }, [navigate, cartItems.length]);
 
-  
-    // AUTO NAME FILL
+
+  // AUTO NAME FILL
   useEffect(() => {
     const user = auth.currentUser;
 
@@ -103,8 +97,8 @@ export default function Checkout() {
     }
   }, []);
 
-    // INPUT HANDLER
- 
+  // INPUT HANDLER
+
   const onField = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -113,8 +107,8 @@ export default function Checkout() {
   };
 
 
-    // VALIDATION
-  
+  // VALIDATION
+
   const validate = () => {
     const { name, phone, address } = formData;
 
@@ -143,9 +137,9 @@ export default function Checkout() {
     return true;
   };
 
- 
-    // PAYMENT HANDLER
- 
+
+  // PAYMENT HANDLER
+
   const handlePayment = async () => {
     if (!validate()) return;
 
@@ -176,7 +170,13 @@ export default function Checkout() {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
 
-              cartItems,
+              cartItems: cartItems.map((item) => ({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                quantity: item.qty ?? item.quantity ?? 1,
+                image: item.image,
+              })),
               totalPrice,
               email,
 
@@ -219,7 +219,7 @@ export default function Checkout() {
   };
 
 
-     //LOADING
+  //LOADING
 
   if (loading) {
     return (
@@ -229,9 +229,9 @@ export default function Checkout() {
     );
   }
 
-  
-     //UI
-  
+
+  //UI
+
   return (
     <div className="max-w-5xl mx-auto px-4 mt-24 text-white">
       <h1 className="text-3xl font-bold mb-6 text-center">Checkout</h1>

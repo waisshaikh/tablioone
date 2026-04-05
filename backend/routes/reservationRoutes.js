@@ -36,7 +36,7 @@ router.put("/:id/status", async (req, res) => {
     );
     res.json({ success: true, reservation });
   } catch (err) {
-    console.error("❌ Reservation update error:", err);
+    console.error(" Reservation update error:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
