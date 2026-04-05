@@ -57,8 +57,8 @@ export default function About() {
           <h2 className="text-3xl font-bold mb-4">Visit Us</h2>
           <p className="text-gray-700 dark:text-gray-300">
             📍 123 Ocean View Road, Mumbai, India  
-            📞 +91 98765 43210  
-            📧 contact@oceanbites.com
+            📞 +91 9657089562
+            📧 tablioone@gmail.com
           </p>
         </div>
       </section>
