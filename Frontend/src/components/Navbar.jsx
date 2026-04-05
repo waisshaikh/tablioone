@@ -9,7 +9,7 @@ import axios from "axios";
 
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
 
-const API_BASE = "http://localhost:5000"; // change if different
+const API_BASE = "http://localhost:5000"|| "https://tablioone.vercel.app"; 
 
 export default function Navbar({ theme, setTheme }) {
   const [open, setOpen] = useState(false);
@@ -85,7 +85,7 @@ export default function Navbar({ theme, setTheme }) {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
               <Link to="/" className="text-xl font-extrabold tracking-tight">
-                TabliOne
+                TablioOne
               </Link>
 
               {/* Desktop links */}

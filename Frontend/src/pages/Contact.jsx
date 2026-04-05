@@ -44,10 +44,10 @@ export default function Contact() {
           {/* Contact Info */}
           <div className="mt-4 space-y-2 text-gray-300">
             <div className="flex items-center gap-2">
-              <span className="text-xl">📞</span> +91 98765 43210
+              <span className="text-xl">📞</span> +91 9657089562
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xl">📧</span> hello@maaslli.com
+              <span className="text-xl">📧</span> hello@tablioone.com
             </div>
           </div>
         </div>
