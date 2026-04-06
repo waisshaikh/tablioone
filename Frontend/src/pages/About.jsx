@@ -5,7 +5,7 @@ export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0A0A0A] to-[#121212] text-white">
 
-      {/* 🔥 HERO */}
+      {/*  HERO */}
       <section className="text-center py-20 px-6">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -21,7 +21,7 @@ export default function About() {
         </p>
       </section>
 
-      {/* ⚡ WHAT IS TABLIOONE */}
+      {/* WHAT IS TABLIOONE */}
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
 
@@ -48,7 +48,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* 🚀 FEATURES */}
+      {/*  FEATURES */}
       <section className="py-16 px-6 bg-white/5 backdrop-blur-lg">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-10">
@@ -86,7 +86,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* 👨‍💻 BUILDER / VISION */}
+      {/* BUILDER / VISION */}
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-6">
@@ -101,7 +101,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* 📍 CONTACT */}
+      {/*  CONTACT */}
       <section className="py-16 px-6 bg-white/5">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Get in Touch</h2>
