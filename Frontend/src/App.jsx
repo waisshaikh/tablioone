@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { CartProvider } from "./context/CartContext";
 
+
 // Public pages
 import Home from "./pages/Home";
 import TableQRScanner from "./pages/TableQRScanner";
@@ -15,6 +16,7 @@ import TableOrder from "./pages/TableOrder";
 import Reservation from "./pages/Reservation";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Register from "./pages/Register";
 import Login from "./pages/LoginPhone";
 import Profile from "./pages/Profile";
 // import GoogleTest from "./pages/GoogleTest";
@@ -91,6 +93,7 @@ export default function App() {
             <Route path="/reservation" element={<Reservation />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} /> {/*  */}
             {/* <Route path="/googletest" element={<GoogleTest />} /> */}
