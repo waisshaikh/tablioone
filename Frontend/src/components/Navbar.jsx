@@ -9,7 +9,7 @@ import axios from "axios";
 
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
 
-const API_BASE = "http://localhost:5000"|| "https://tablioone.vercel.app"; 
+const API_BASE = "https://second-brain-huvx.onrender.com"; 
 
 export default function Navbar({ theme, setTheme }) {
   const [open, setOpen] = useState(false);

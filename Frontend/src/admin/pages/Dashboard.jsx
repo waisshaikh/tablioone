@@ -3,7 +3,7 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import StatCard from "../components/StatCard";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function Dashboard() {
   const [stats, setStats] = useState({

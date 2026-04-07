@@ -7,7 +7,7 @@ import { auth } from "../firebase";
 
 
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function Profile() {
   const [user, setUser] = useState(null);

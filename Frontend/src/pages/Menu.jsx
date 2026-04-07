@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import DishCard from "../components/DishCard";
 
-const API_BASE = "http://localhost:5000" || "https://tablioone.vercel.app/";
+const API_BASE = "https://second-brain-huvx.onrender.com";
 
 export default function Menu() {
   const [dishes, setDishes] = useState([]);

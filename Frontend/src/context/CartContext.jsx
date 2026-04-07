@@ -4,7 +4,7 @@ import { auth } from "../firebase";
 import axios from "axios";
 
 const CartContext = createContext();
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 function reducer(state, action) {
   switch (action.type) {
