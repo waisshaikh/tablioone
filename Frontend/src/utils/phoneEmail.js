@@ -1,14 +1,28 @@
-// src/utils/phoneEmail.js
-// Ensures the phone starts with + and has no spaces
+// Ensures the phone starts with + and has no spaces or invalid chars
 export function normalizePhone(input) {
-  const trimmed = (input || "").replace(/\s+/g, "");
-  if (trimmed.startsWith("+")) return trimmed;
-  // Adjust default country if you want. Here we assume India (+91) if no +
-  return `+91${trimmed}`;
+  if (!input) return "";
+
+  let cleaned = input.replace(/\s+/g, "").replace(/[^\d+]/g, "");
+
+  // If already starts with +
+  if (cleaned.startsWith("+")) return cleaned;
+
+  // If starts with 0 → remove it
+  if (cleaned.startsWith("0")) {
+    cleaned = cleaned.slice(1);
+  }
+
+  // Default India (+91)
+  return `+91${cleaned}`;
 }
 
 export function phoneToEmail(phone) {
-  const p = normalizePhone(phone);
-  // Use a domain you control; this does not need to exist—just consistent.
-  return `${p.replace(/\+/g, "plus") }@maaslli.app`;
+  const normalized = normalizePhone(phone);
+
+  if (!normalized) return "";
+
+  // Replace + to avoid invalid email char
+  const safePhone = normalized.replace(/\+/g, "plus");
+
+  return `${safePhone}@maaslli.app`;
 }

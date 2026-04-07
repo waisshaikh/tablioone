@@ -1,8 +1,13 @@
 import Cookies from "js-cookie";
 
 export const saveToken = (token) => {
-  // we set cookie server-side as HttpOnly (prefer). But save in localStorage optionally:
-  if (token) localStorage.setItem("token", token);
+  if (!token) return;
+
+  // localStorage (client-side access)
+  localStorage.setItem("token", token);
+
+  // optional: cookie (non-HttpOnly, only if needed)
+  Cookies.set("token", token, { expires: 7 });
 };
 
 export const getToken = () => {
@@ -11,5 +16,8 @@ export const getToken = () => {
 
 export const clearAuth = () => {
   localStorage.removeItem("token");
-  // call backend /logout to clear cookie too
+  Cookies.remove("token");
+
+  // optional: call backend logout API
+  // fetch("/api/logout", { method: "POST", credentials: "include" });
 };
