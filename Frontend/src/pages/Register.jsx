@@ -1,49 +1,59 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import {
   GoogleAuthProvider,
   signInWithPopup,
-  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const from = location.state?.from || "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  //  GOOGLE LOGIN
-  const handleGoogleLogin = async () => {
+  // GOOGLE SIGNUP
+  const handleGoogleSignup = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
 
-      console.log("Logged in:", result.user);
-      navigate(from, { replace: true });
+      console.log("Google signup:", result.user);
+      navigate("/", { replace: true });
     } catch (err) {
       console.error(err);
-      alert("Google login failed ❌");
+      alert("Google signup failed ❌");
     }
   };
 
-  //  EMAIL LOGIN
-  const handleEmailLogin = async () => {
+  //  EMAIL REGISTER
+  const handleRegister = async () => {
     if (!email || !password) {
       alert("Enter email & password");
       return;
     }
 
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
-      console.log("Email login:", res.user);
-      navigate(from, { replace: true });
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      console.log("Registered:", res.user);
+
+      alert("Account created 🎉 Please login");
+      navigate("/login");
     } catch (err) {
       console.error(err);
-      alert("Invalid credentials ❌");
+
+      if (err.code === "auth/email-already-in-use") {
+        alert("Account already exists, please login");
+        navigate("/login");
+      } else {
+        alert("Registration failed ❌");
+      }
     }
   };
 
@@ -52,12 +62,12 @@ export default function Login() {
 
       <div className="w-[350px] p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl text-center">
 
-        <h1 className="text-3xl font-bold mb-2">Welcome 👋</h1>
+        <h1 className="text-3xl font-bold mb-2">Create Account</h1>
         <p className="text-gray-400 mb-6">
-          Login to continue
+          Sign up to get started
         </p>
 
-        {/*  EMAIL LOGIN */}
+        {/*  EMAIL REGISTER */}
         <input
           type="email"
           placeholder="Email"
@@ -75,10 +85,10 @@ export default function Login() {
         />
 
         <button
-          onClick={handleEmailLogin}
-          className="w-full bg-blue-600 py-2 rounded mb-4 hover:bg-blue-700"
+          onClick={handleRegister}
+          className="w-full bg-green-600 py-2 rounded mb-4 hover:bg-green-700"
         >
-          Login with Email
+          Register
         </button>
 
         {/* Divider */}
@@ -88,9 +98,9 @@ export default function Login() {
           <div className="flex-1 h-px bg-gray-700"></div>
         </div>
 
-        {/*  GOOGLE LOGIN */}
+        {/*  GOOGLE SIGNUP */}
         <button
-          onClick={handleGoogleLogin}
+          onClick={handleGoogleSignup}
           className="w-full flex items-center justify-center gap-3 bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition"
         >
           <img
@@ -101,18 +111,19 @@ export default function Login() {
           Continue with Google
         </button>
 
-        <p className="text-sm text-gray-400 mt-4">
-          Don’t have an account?{" "}
+        {/*  LOGIN REDIRECT */}
+        <p className="text-sm text-gray-400 mt-6">
+          Already have an account?{" "}
           <span
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/login")}
             className="text-blue-400 cursor-pointer"
           >
-            Register
+            Login
           </span>
         </p>
 
-        <p className="text-xs text-gray-500 mt-6">
-          Secure login powered by Firebase
+        <p className="text-xs text-gray-500 mt-4">
+          Secure signup powered by Firebase
         </p>
       </div>
     </div>
