@@ -53,20 +53,20 @@ export default function Home() {
   const [popularDish, setPopularDish] = useState(null);
 
   /* ================= FETCH FACT ================= */
-  useEffect(() => {
-    fetch(`${API_BASE}/api/facts/random`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setFact(data);
-        } else {
-          setFact({ en: "", mr: "" });
-        }
-      })
-      .catch(() => {
-        setFact({ en: "", mr: "" });
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`${API_BASE}/api/facts/random`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data) {
+  //         setFact(data);
+  //       } else {
+  //         setFact({ en: "", mr: "" });
+  //       }
+  //     })
+  //     .catch(() => {
+  //       setFact({ en: "", mr: "" });
+  //     });
+  // }, []);
 
   /* ================= FETCH POPULAR DISH ================= */
   useEffect(() => {
@@ -112,7 +112,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0A0A0A] to-[#121212] text-white">
 
-      {/* ================= HERO (UNCHANGED) ================= */}
+      {/* ================= HERO  ================= */}
       <section className="relative w-full h-[65vh] md:h-[80vh]">
         <img
           src="/images/seafood.png"
@@ -120,16 +120,16 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-black/40" />
 
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-[90%] md:w-96">
+        {/* <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-[90%] md:w-96">
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 text-center">
             <h4 className="text-sm uppercase">Daily Fact</h4>
             <p>{fact?.en || "Loading..."}</p>
             <p className="text-xs">{fact?.mr || ""}</p>
           </div>
-        </div>
+        </div> */}
       </section>
 
-      {/* ================= BUTTONS (UNCHANGED) ================= */}
+      {/* ================= BUTTONS  ================= */}
       <section className="-mt-10 px-6">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center py-6 bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-white/10">
 
