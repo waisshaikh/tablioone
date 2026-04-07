@@ -9,7 +9,7 @@ import axios from "axios";
 
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
 
-const API_BASE = "https://second-brain-huvx.onrender.com"; 
+const API_BASE = "https://tablioone.onrender.com"; 
 
 export default function Navbar({ theme, setTheme }) {
   const [open, setOpen] = useState(false);

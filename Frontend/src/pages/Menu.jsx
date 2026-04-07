@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import DishCard from "../components/DishCard";
 
-const API_BASE = "https://second-brain-huvx.onrender.com";
+const API_BASE = "https://tablioone.onrender.com";
 
 export default function Menu() {
   const [dishes, setDishes] = useState([]);

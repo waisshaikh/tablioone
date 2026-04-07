@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 
-const API_BASE = "https://second-brain-huvx.onrender.com";
+const API_BASE = "https://tablioone.onrender.com";
 
 export default function ManageMenu() {
   const [dishes, setDishes] = useState([]);
