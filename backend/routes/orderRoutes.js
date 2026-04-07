@@ -86,7 +86,7 @@ router.post("/verify", async (req, res) => {
         gst,
         subtotal,
         finalTotal,
-        paymentMode: channel === "table" ? "cash" : "online",
+        paymentMode: "online",
       },
     });
 

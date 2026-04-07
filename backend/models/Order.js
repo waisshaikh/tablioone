@@ -31,7 +31,7 @@ const orderSchema = new mongoose.Schema(
       gst: { type: Number, default: 0 },
       subtotal: { type: Number, default: 0 },
       finalTotal: { type: Number, default: 0 },
-      paymentMode: { type: String, default: "online" }, // online / cash
+      paymentMode: { type: String, default: "online" }, // online
     },
     paymentId: String,
     razorpayOrderId: String,
